@@ -1,35 +1,52 @@
-import { Divider, TextField, Typography, Button } from "@mui/material";
+import { useContext } from "react";
+import { Divider, TextField, Typography, Button, Alert } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [error, setError] = useState(false);
+  const { setIsUser } = useContext(AuthContext);
 
   function handleSubmit(e: Event) {
     e.preventDefault();
 
     if (name && email && phoneNumber) {
-      console.log("name", name);
-      console.log("email", email);
-      console.log("phoneNumber", phoneNumber);
-      localStorage.setItem("user", JSON.stringify(name, email, phoneNumber));
+      setIsUser(true);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ name, email, phoneNumber })
+      );
+      navigate("/details");
     } else {
       console.log("Fill all the fields");
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
     }
   }
 
   const paperStyle = {
     padding: "30px 20px",
     width: 300,
-    margin: "10% auto",
+    margin: "5% auto",
   };
 
   return (
     <Grid>
+      {error && (
+        <Alert severity="error">
+          Please fill all the details to proceed further!
+        </Alert>
+      )}
       <Paper elevation={3} style={paperStyle}>
         <Typography variant="h6" color="inherit" component="div">
           Enter Details
