@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Box, Checkbox, FormControlLabel } from "@mui/material";
 
-const ChecBoxGroup = ({ item }) => {
+const ChecBoxGroup = ({
+  item,
+}: {
+  item: { department: string; sub_departments: Array<string> };
+}) => {
   const numberOfOptions = item.sub_departments.length;
   const defaultValue = false;
   const initialState = Array(numberOfOptions).fill(defaultValue);

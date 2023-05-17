@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
   { field: "body", headerName: "Body", width: 900 },
 ];
 
-const DataTable = ({ data }: Array<PostObject>) => {
+const DataTable = ({ data }: { data: Array<PostObject> }) => {
   rows = [...data];
 
   return (

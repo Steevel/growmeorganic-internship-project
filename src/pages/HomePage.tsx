@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, FormEvent, ChangeEvent } from "react";
 import { Divider, TextField, Typography, Button, Alert } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
@@ -11,11 +11,11 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<number>();
   const [error, setError] = useState(false);
   const { setIsUser } = useContext(AuthContext);
 
-  function handleSubmit(e: Event) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (name && email && phoneNumber) {
@@ -26,13 +26,22 @@ const HomePage = () => {
       );
       navigate("/details");
     } else {
-      console.log("Fill all the fields");
       setError(true);
       setTimeout(() => {
         setError(false);
       }, 2000);
     }
   }
+
+  const handlePhoneNumber = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const regex = /^[0-9\b]+$/;
+    if (e.target.value === "" || regex.test(e.target.value)) {
+      setPhoneNumber(Number(e.target.value));
+      console.log(phoneNumber);
+    }
+  };
 
   const paperStyle = {
     padding: "30px 20px",
@@ -44,7 +53,8 @@ const HomePage = () => {
     <Grid>
       {error && (
         <Alert severity="error">
-          Please fill all the details to proceed further!
+          Fill all the fields. Make sure all the details are in the correct
+          format
         </Alert>
       )}
       <Paper elevation={3} style={paperStyle}>
@@ -71,7 +81,8 @@ const HomePage = () => {
             label="Phone Number"
             variant="standard"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            // onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => handlePhoneNumber(e)}
             style={{ marginTop: "10px" }}
           />
           <TextField
