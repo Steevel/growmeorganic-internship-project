@@ -1,6 +1,7 @@
 import Axios from "axios";
 import { useEffect, useState } from "react";
 import DataTable from "../components/DataTable";
+import Department from "../components/Department";
 
 interface PostObject {
   userId: number;
@@ -17,8 +18,6 @@ const DetailsPage = () => {
       .then((response) => {
         const postsArray = response.data;
         setData(postsArray);
-        // console.log("response: ", postsArray);
-        // console.log("data: ", data[0]);
       })
       .catch((error) => {
         console.log("Error: " + error.message);
@@ -27,11 +26,8 @@ const DetailsPage = () => {
 
   return (
     <div>
-      {/* DetailsPage */}
-      {/* {data?.map((item) => (
-        <p key={item.id}>{item.id}</p>
-      ))} */}
       <DataTable data={data} />
+      <Department />
     </div>
   );
 };

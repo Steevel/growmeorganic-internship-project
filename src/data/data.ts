@@ -1,4 +1,8 @@
-export const data = [
+interface Department {
+  department: string;
+  sub_departments: Array<string>;
+}
+const data:Array<Department> = [
   {
     department: "customer_service",
     sub_departments: ["support", "customer_success"],
@@ -8,3 +12,5 @@ export const data = [
     sub_departments: ["graphic_design", "product_design", "web_design"],
   },
 ];
+
+export default data;
